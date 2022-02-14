@@ -1,0 +1,22 @@
+.cart-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+}
+
+.cart-button:hover,
+.cart-button:active {
+  color: white;
+}
+
+.cart-button span {
+  margin: 0 0.5rem;
+  font-size: 1.3rem;
+}
+
+.cart-badge {
+  background-color: rgb(255	241	79);
+  border-radius: 30px;
+  padding: 0.15rem 1.25rem;
+  color: #1d1d1d;
+}

@@ -3,10 +3,12 @@ import {useRouter} from "next/router";
 
 import Link from "next/link";
 import classes from './MainNavigation.module.css';
+import CartButton from "../Cart/CartButton";
 
 function MainNavigation() {
     const [stick, setStick] = useState(false)
     const router = useRouter()
+
     const cssClasses = [classes.header, stick ? "sticky-top" : '']
 
     let last_known_scroll_position = 0;
@@ -34,8 +36,7 @@ function MainNavigation() {
         });
     }, [])
 
-    return (
-        <header className={cssClasses.join(' ')}>
+    return (<header className={cssClasses.join(' ')}>
             <Link href="/"><a><img className={classes.logo} src="https://bodegonasusalud.com/images/asusalud.png"/></a></Link>
             <nav>
                 <ul>
@@ -49,10 +50,10 @@ function MainNavigation() {
                             <a className={router.pathname == "/nosotros" ? classes.active : ""}>Nosotros</a>
                         </Link>
                     </li>
+                    <li><CartButton/></li>
                 </ul>
             </nav>
-        </header>
-    );
-}
+        </header>)
+};
 
 export default MainNavigation;

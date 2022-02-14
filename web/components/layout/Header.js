@@ -4,7 +4,7 @@ import classes from './Header.module.css';
 function Header(props) {
     return (
         <div>
-            <MainNavigation />
+            <MainNavigation/>
             <main className={classes.main}>{props.children}</main>
         </div>
     );

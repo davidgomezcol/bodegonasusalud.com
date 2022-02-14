@@ -1,9 +1,10 @@
+import {useDispatch, useSelector} from "react-redux";
 import Head from 'next/head';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Products from "../components/products/Products";
+import Products from "../components/Products/Products";
 
 import styles from '../styles/Home.module.css';
+import Cart from "../components/Cart/Cart";
 
 const PRODUCTS = [
     {
@@ -54,6 +55,10 @@ const PRODUCTS = [
 ]
 
 const Home = () => {
+    const dispatch = useDispatch();
+    const cart = useSelector((state) => state.cart);
+    const notification = useSelector((state) => state.ui.notification);
+
     return (
         <div className={styles.container}>
             <Head>

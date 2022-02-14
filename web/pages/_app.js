@@ -1,15 +1,16 @@
 import {Fragment} from "react";
+import {Provider} from "react-redux";
 
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
+import store from '../store/index'
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { faTwitter, faFacebook, faInstagram, faFontAwesome } from '@fortawesome/free-brands-svg-icons'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {fas} from '@fortawesome/free-solid-svg-icons'
+import {faTwitter, faFacebook, faInstagram, faFontAwesome} from '@fortawesome/free-brands-svg-icons'
 
 library.add(fas, faTwitter, faFacebook, faInstagram, faFontAwesome)
 
 import '../styles/globals.css'
+import AppLayout from "../components/Layout/AppLayout";
 
 const SOCIAL = [
     {
@@ -32,10 +33,11 @@ const SOCIAL = [
 function MyApp({Component, pageProps}) {
     return (
         <Fragment>
-            <Header>
-                <Component {...pageProps} />
-            </Header>
-            <Footer social={SOCIAL}/>
+            <Provider store={store}>
+                <AppLayout social={SOCIAL}>
+                    <Component {...pageProps} />
+                </AppLayout>
+            </Provider>
         </Fragment>
     )
 }

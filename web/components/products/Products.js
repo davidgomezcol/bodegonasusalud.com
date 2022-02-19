@@ -1,25 +1,26 @@
-import {Fragment} from "react";
-
 import Item from "./Item";
 
 const Products = (props) => {
+    let products = props.products;
+    if (props.featured === 1) {
+        products = props.products.filter((item) => item.featured === true);
+    }
     return (
-        <Fragment>
-            <div className="text-center"><h1>Popular Products</h1></div>
-                <div className="row justify-content-around" style={{"width": "90%", "margin": "0 auto"}}>
-                    {props.products.map((item) => (
-                        <Item
-                            key={item.id}
-                            image={item.image}
-                            id={item.id}
-                            name={item.name}
-                            description={item.description}
-                            weight={item.weight}
-                            units={item.units}
-                            price={item.price}/>
-                    ))}
-                </div>
-        </Fragment>
+
+        <div className="row justify-content-around" style={{"width": "90%", "margin": "0 auto"}}>
+            {products.map((item) => (<Item
+                    key={item.id}
+                    image={item.image}
+                    id={item.id}
+                    name={item.name}
+                    description={item.description}
+                    category={item.category.toString().toLowerCase()}
+                    weight={item.weight}
+                    units={item.units}
+                    price={item.price}
+                />))}
+        </div>
+
     )
 };
 

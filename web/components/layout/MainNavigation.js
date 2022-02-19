@@ -2,8 +2,8 @@ import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 
 import Link from "next/link";
-import classes from './MainNavigation.module.css';
 import CartButton from "../Cart/CartButton";
+import classes from './MainNavigation.module.css';
 
 function MainNavigation() {
     const [stick, setStick] = useState(false)
@@ -37,12 +37,17 @@ function MainNavigation() {
     }, [])
 
     return (<header className={cssClasses.join(' ')}>
-            <Link href="/"><a><img className={classes.logo} src="https://bodegonasusalud.com/images/asusalud.png"/></a></Link>
+            <Link href="/"><a><img className={classes.logo} alt="Bodegón a su Salud" src="https://bodegonasusalud.com/images/asusalud.png"/></a></Link>
             <nav>
                 <ul>
                     <li>
-                        <Link href='/contactanos'>
-                            <a className={router.pathname == "/contactanos" ? classes.active : ""}>Contáctanos</a>
+                        <Link href='/productos'>
+                            <a className={router.pathname == "/productos" ? classes.active : ""}>Productos</a>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href='/compra-y-recoje'>
+                            <a className={router.pathname == "/compra-y-recoje" ? classes.active : ""}>Compra y recoje</a>
                         </Link>
                     </li>
                     <li>

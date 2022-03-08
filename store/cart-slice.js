@@ -1,9 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 let cartItems;
+
+// This function is needed to work
+// with local storage after rendering from the server
 if (typeof window !== 'undefined') {
-    // This function is needed to work
-    // with local storage after rendering from the server
     cartItems = localStorage.getItem('cartItems')
 }
 

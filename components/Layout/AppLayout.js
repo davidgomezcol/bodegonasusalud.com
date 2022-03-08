@@ -6,6 +6,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Cart from "../Cart/Cart";
 
+
 const AppLayout = (props) => {
     const showCart = useSelector((state) => state.ui.cartIsVisible);
     return (

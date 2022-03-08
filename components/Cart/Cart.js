@@ -31,9 +31,9 @@ const Cart = (props) => {
                 </button>
             </div>
         </div>
-        <div className="mt-5">
-            {cartItems.length > 0 ? `${cartTotalQuantity}` + " Productos Añadidos" : ""}
-        </div>
+        {cartItems.length > 0  && <div className="mt-5">
+             {cartTotalQuantity === 1 ? cartTotalQuantity + " Producto Añadido" : cartTotalQuantity + " Productos Añadidos"}
+        </div>}
         {cartItems.length === 0 ? <div className="position-relative text-center top-50">
             <p>No tienes productos agregados al carrito</p></div> : <ul>
             {cartItems.map((item) => (<CartItem
@@ -47,9 +47,16 @@ const Cart = (props) => {
                 }}
             />))}
         </ul>}
-        <div className="mt-3 mb-5">
-            {cartItems.length > 0 ? "Total: $" + `${cartTotalAmount.toFixed(2)}` : ""}
-        </div>
+        {cartItems.length > 0 && <div className="mt-3 mb-5">
+            Total: ${cartTotalAmount.toFixed(2)}
+        </div>}
+        {cartItems.length > 0 && <div className="text-center">
+            <button
+                className="btn btn-warning"
+                style={{fontSize: '20px'}}>
+                Ir a Pagar
+            </button>
+        </div>}
     </Card>);
 };
 

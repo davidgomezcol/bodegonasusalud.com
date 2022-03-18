@@ -5,7 +5,7 @@ import classes from './CartItem.module.css';
 
 const CartItem = (props) => {
     const dispatch = useDispatch();
-    const {id, name, quantity, total, price} = props.item;
+    const {id, name, quantity, total, price, image} = props.item;
 
     const removeItemHandler = () => {
         dispatch(cartActions.removeItemFromCart(id));
@@ -17,6 +17,7 @@ const CartItem = (props) => {
                 id,
                 name,
                 price,
+                image,
             })
         );
     };

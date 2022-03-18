@@ -135,6 +135,7 @@ export const userSlice = createSlice({
             state.errorMessage = payload.email;
         },
         [loginUser.fulfilled]: (state, {payload}) => {
+            console.log("running fullfiled login...");
             state.username = payload.email;
             state.name = payload.name;
             state.isFetching = false;

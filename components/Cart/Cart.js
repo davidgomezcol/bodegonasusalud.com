@@ -7,9 +7,11 @@ import {cartActions} from "../../store/cart-slice";
 import Card from '../UI/Card';
 import CartItem from './CartItem';
 import classes from './Cart.module.css';
+import {useRouter} from "next/router";
 
 
 const Cart = (props) => {
+    const router = useRouter();
     const dispatch = useDispatch();
     const cartItems = useSelector((state) => state.cart.items);
     const {cartTotalQuantity, cartTotalAmount} = useSelector(state => state.cart)
@@ -20,6 +22,15 @@ const Cart = (props) => {
 
     const closeCartHandler = () => {
         dispatch(uiActions.toggle())
+    };
+
+    const checkoutHandler = () => {
+        dispatch(uiActions.toggle());
+        router.push('/verificar')
+    };
+
+    const clearCart = () => {
+        dispatch(cartActions.removeAllItemsFromCart())
     }
 
     return (<Card className={classes.cart}>
@@ -53,9 +64,12 @@ const Cart = (props) => {
         {cartItems.length > 0 && <div className="text-center">
             <button
                 className="btn btn-warning"
-                style={{fontSize: '20px'}}>
-                Ir a Pagar
+                style={{fontSize: '20px'}}
+                onClick={checkoutHandler}
+            >
+                Crear Orden
             </button>
+            <button className="btn btn-danger" onClick={clearCart}>Clear Cart</button>
         </div>}
     </Card>);
 };

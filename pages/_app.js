@@ -11,6 +11,7 @@ library.add(fas, faTwitter, faFacebook, faInstagram, faFontAwesome)
 import AppLayout from "../components/Layout/AppLayout";
 
 import '../styles/globals.css'
+import {SSRProvider} from "react-bootstrap";
 
 const SOCIAL = [{
     'id': 1, 'social': 'instagram', 'url': 'https://www.instagram.com'
@@ -38,11 +39,14 @@ const METADATA = [
 function MyApp({Component, pageProps}) {
     return (<Fragment>
             <Provider store={store}>
-                <AppLayout social={SOCIAL}>
-                    <Component meta={METADATA} {...pageProps} />
-                </AppLayout>
+                <SSRProvider>
+                    <AppLayout social={SOCIAL}>
+                        <Component meta={METADATA} {...pageProps} />
+                    </AppLayout>
+                </SSRProvider>
             </Provider>
-        </Fragment>)
+        </Fragment>
+    )
 }
 
 export default MyApp

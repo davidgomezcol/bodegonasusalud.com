@@ -10,11 +10,11 @@ const Item = (props) => {
     const dispatch = useDispatch();
     const router = useRouter();
 
-    const {id, name, price, category, weight, units} = props;
+    const {id, name, price, category, weight, units, image} = props;
 
     const addToCartHandler = () => {
         dispatch(cartActions.addItemToCart({
-            id, name, price,
+            id, name, price, image
         }));
     };
 
@@ -26,8 +26,8 @@ const Item = (props) => {
             <div>
                 <button className="border-0 bg-transparent">
                     <img className={classes["product-image"]}
-                         src={props.image}
-                         alt={props.name} onClick={showDetailsHandler}/>
+                         src={image}
+                         alt={name} onClick={showDetailsHandler}/>
                 </button>
             </div>
             <h5 className={classes["product-name"]}>{name}</h5>

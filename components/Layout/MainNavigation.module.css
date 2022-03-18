@@ -1,6 +1,6 @@
 .header {
     width: 100%;
-    height: 6rem;
+    height: 90px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -9,7 +9,7 @@
 }
 
 .logo {
-  width: 150px;
+    width: 150px;
 }
 
 .header ul {
@@ -26,16 +26,38 @@
 
 .header a {
     text-decoration: none;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: white;
+    padding: 0;
+    margin: 0;
 }
 
 .header a:hover,
 .header a:active,
 .header a.active {
+    color: rgb(255	241	79);
+}
+
+.item-active {
     color: lightgray;
 }
 
-.item-active{
-    color: lightgray;
+.offcanvas-bg {
+    background-color: black !important;
+}
+
+.link-text {
+    color: white;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.link-text a{
+    padding: 0.5rem;
+}
+
+.link-text a:hover,
+.link-text a:active,
+.link-text a.active {
+    color: rgb(255	241	79);
 }

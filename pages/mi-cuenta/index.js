@@ -1,10 +1,10 @@
-import Link from "next/link";
 import {useRouter} from "next/router";
 import {useDispatch, useSelector} from "react-redux";
 import {clearState, fetchUserBytoken, userSelector} from "../../store/users-slice";
 import {Fragment, useEffect, useState} from "react";
 import Spinner from "../../components/UI/Spinner";
 import classes from '../../components/UI/Spinner.module.css'
+import Link from "next/link";
 
 const MiCuenta = (props) => {
     const router = useRouter();
@@ -13,7 +13,7 @@ const MiCuenta = (props) => {
 
     // console.log(props.orders);
     // console.log(props.products);
-    console.log(props.productsInfo);
+    // console.log(props.productsInfo);
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
@@ -50,12 +50,12 @@ const MiCuenta = (props) => {
                         </div>
 
                         <div className="row justify-content-center mt-5">
+                            {props.orders.length === 0 && <p className="text-center mb-5 fw-bolder">Aún no tienes Ordenes.</p>}
                             {props.orders.map(order => (
                                 <Fragment key={order.id}>
                                     <div
-                                        key={order.id}
                                         className="
-                                        col-md-8
+                                        col-md-10
                                         border-dark
                                         border
                                         border-bottom-1
@@ -65,6 +65,7 @@ const MiCuenta = (props) => {
                                         mt-3
                                         d-inline-flex
                                         rounded-top
+                                        align-items-center
                                     "
                                     >
                                         <div className="col-md-3">
@@ -75,28 +76,59 @@ const MiCuenta = (props) => {
                                             <span>ENVIAR A</span>
                                             <p>{order.user}</p>
                                         </div>
-                                        <div className="col-md-4 text">
+                                        <div className="col-md-5 text-sm-end">
                                             <span>PEDIDO N.º </span>
                                             {order.tracking_number}
                                         </div>
                                     </div>
-                                    <div className="col-md-8 border border-1 border-top-0 border-dark rounded-bottom">
-                                        <div className="py-2 col-md-4">
-                                            <span>Estatus: {order.order_status}</span>
+                                    <div className="col-md-10 table-responsive">
+                                        <div className="py-2 row">
+                                            <div className="col-md-6 fw-bold"><span>Estatus: {order.order_status}</span></div>
+                                            <div className="col-md-6 text-end fw-bold">Método de Pago: {order.payment_mode}</div>
                                         </div>
-                                        {props.products.map(orderItem => {
-                                            console.log("order id", orderItem.order, order.id)
-                                            if (orderItem.order === order.id) {
-                                                return props.productsInfo.map(image => (
-                                                            <p><img width="100px" src={image.image}/></p>
+                                        <table className="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">Producto</th>
+                                                <th scope="col" className="text-center">Cantidad</th>
+                                                <th scope="col" className="text-center">Precio Unitario</th>
+                                                <th scope="col" className="text-center">Precio Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {order.order_items.map(orderItem => {
+                                                return props.productsInfo.map(item => {
+                                                    if (orderItem.product === item.id) {
+                                                        return (
+                                                            <tr>
+                                                                <th><img
+                                                                    alt={item.name} width="100px"
+                                                                    src={item.image}/></th>
+                                                                <td style={{verticalAlign: "middle"}}>
+                                                                    {item.name} {item.weight}{item.units}<br/>
+                                                                    <Link
+                                                                        href={`/productos/${item.category[0].name.toLowerCase()}/${item.name.toLowerCase().replaceAll(' ', "-")}`}>
+                                                                        Ver Producto
+                                                                    </Link>
+                                                                </td>
+                                                                <td style={{verticalAlign: "middle", textAlign: "center"}}>
+                                                                    {orderItem.quantity}<br/>
+                                                                </td>
+                                                                <td style={{verticalAlign: "middle", textAlign: "center"}}>
+                                                                    ${item.price.toFixed(2)}<br/>
+                                                                </td>
+                                                                <td style={{verticalAlign: "middle", textAlign: "center"}}>
+                                                                    ${orderItem.total_price.toFixed(2)}<br/>
+                                                                </td>
+                                                            </tr>
                                                         )
-                                                    )
-                                            }
-                                        })}
-
-                                        {/*{order.order_items.map(orderItem => (*/}
-                                        {/*    <p key={orderItem.id}>{orderItem.quantity}</p>*/}
-                                        {/*))}*/}
+                                                    }
+                                                })
+                                            })}
+                                            </tbody>
+                                        </table>
+                                        <div className="row">Total de la Orden: ${order.order_total.toFixed(2)}</div>
                                     </div>
                                 </Fragment>
                             ))}
@@ -113,7 +145,8 @@ export async function getStaticProps({params}) {
     let products = [];
     let productList = [];
     let productsInfo = [];
-    const resOrders = await fetch('http://localhost:8000/api/orders/', {
+    const apiUrl = process.env.API_URL;
+    const resOrders = await fetch(apiUrl + 'orders/', {
         headers: new Headers({
             'Content-Type': 'application/json',
             'Authorization': 'Token 86e241fafff7c98c7082b0cb25233b2d61405c50'
@@ -129,15 +162,17 @@ export async function getStaticProps({params}) {
     });
 
     products.map(product => {
-        productList.push(product.product)
+        if (!productList.includes(product.product)) {
+            productList.push(product.product);
+        }
         return productList
     })
 
     for (let x = products.length; x--;) {
-        const resProducts = await fetch(`http://localhost:8000/api/products/${productList[x]}/`, {
+        const resProducts = await fetch(apiUrl + `products/${productList[x]}/`, {
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'Authorization': 'Token ca26bcf85be14daedb6a636af5590638e559293c'
+                'Authorization': process.env.TOKEN
             })
         });
 

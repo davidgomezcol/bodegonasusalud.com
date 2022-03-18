@@ -28,7 +28,7 @@ const cartSlice = createSlice({
             state.changed = true;
             if (!existingItem) {
                 state.items.push({
-                    id: newItem.id, price: newItem.price, quantity: 1, totalPrice: newItem.price, name: newItem.name,
+                    id: newItem.id, price: newItem.price, quantity: 1, totalPrice: newItem.price, name: newItem.name, image: newItem.image,
                 });
             } else {
                 existingItem.quantity++;
@@ -47,6 +47,10 @@ const cartSlice = createSlice({
                 existingItem.totalPrice = existingItem.totalPrice - existingItem.price;
             }
             localStorage.setItem("cartItems", JSON.stringify(state.items))
+        }, removeAllItemsFromCart(state){
+            state.items = [];
+            localStorage.removeItem("cartItems");
+            state.changed = true;
         }, getTotals(state) {
             let {total, quantity} = state.items.reduce((cartTotal, cartItem) => {
                 const {price, quantity} = cartItem;
@@ -60,7 +64,7 @@ const cartSlice = createSlice({
             });
             state.cartTotalQuantity = quantity;
             state.cartTotalAmount = total;
-        }
+        },
     },
 });
 

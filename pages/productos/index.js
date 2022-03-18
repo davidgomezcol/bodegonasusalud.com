@@ -16,7 +16,7 @@ const Productos = (props) => {
 export default Productos;
 
 export async function getStaticProps({params}) {
-    const resProducts = await fetch('http://localhost:8000/api/products/', {
+    const resProducts = await fetch(process.env.API_URL + 'products/', {
         headers: new Headers({
             'Content-Type': 'application/json',
             'Authorization': 'Token ca26bcf85be14daedb6a636af5590638e559293c'

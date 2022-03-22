@@ -1,14 +1,9 @@
 import {Fragment} from "react";
-import {useDispatch, useSelector} from "react-redux";
 
 import Products from "../components/Products/Products";
 import MetaTags from "../components/Layout/MetaTags";
 
 const Home = (props) => {
-    const dispatch = useDispatch();
-    const cart = useSelector((state) => state.cart);
-    const notification = useSelector((state) => state.ui.notification);
-
     return (
         <Fragment>
             <MetaTags meta={props.meta} url="/"/>
@@ -23,10 +18,10 @@ const Home = (props) => {
 export default Home;
 
 export async function getStaticProps() {
-    const res = await fetch('http://localhost:8000/api/products/', {
+    const res = await fetch(process.env.API_URL + 'products/', {
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': 'Token ca26bcf85be14daedb6a636af5590638e559293c'
+            'Authorization': process.env.TOKEN,
         })
     });
     const products = await res.json();

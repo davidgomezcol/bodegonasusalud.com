@@ -8,6 +8,8 @@
     top: 0;
     overflow-y: scroll;
     height: 100%;
+    animation: mymove 0.5s;
+    animation-timing-function: ease-out;
 }
 
 .cart h2 {
@@ -26,4 +28,27 @@
     color: white;
     font-size: 24px;
     border: none;
+}
+
+.CartClose{
+    animation: myclosemove 0.5s !important;
+    animation-timing-function: ease-in !important;
+}
+
+@keyframes mymove {
+    from {
+        right: -300px;
+    }
+    to {
+        right: 0px;
+    }
+}
+
+@keyframes myclosemove {
+    from {
+        right: 0px;
+    }
+    to {
+        right: -300px;
+    }
 }

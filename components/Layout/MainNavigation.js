@@ -16,8 +16,6 @@ function MainNavigation(props) {
     const dispatch = useDispatch();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    console.log("isSuccess", isSuccess);
-
     useEffect(() => {
         if (localStorage.getItem('token')) {
             dispatch(fetchUserBytoken(

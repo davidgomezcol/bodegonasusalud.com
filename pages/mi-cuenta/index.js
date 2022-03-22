@@ -32,11 +32,6 @@ const MiCuenta = (props) => {
         }
     }, [isError]);
 
-    // const onLogOut = () => {
-    //     localStorage.removeItem('token');
-    //     router.push('/login');
-    // };
-
     return (
         <div className="row justify-content-center">
             {isFetching ?

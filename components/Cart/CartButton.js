@@ -9,7 +9,6 @@ import classes from './CartButton.module.css';
 
 const CartButton = (props) => {
     const dispatch = useDispatch();
-    // const cartTotalQ = useSelector((state) => state.cart.totalQuantity);
     const {cartTotalQuantity} = useSelector((state) => state.cart);
 
     useEffect(()=>{

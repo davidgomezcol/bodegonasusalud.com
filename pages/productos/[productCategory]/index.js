@@ -12,22 +12,22 @@ const ProductCategories = (props) => {
 
 export default ProductCategories;
 
-export async function getStaticPaths(props) {
-    const res = await fetch(`http://localhost:8000/api/products/`, {
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': 'Token ca26bcf85be14daedb6a636af5590638e559293c'
-        })
-    });
-    const products = await res.json();
-    return {
-        paths: products.map(products => ({params: {productCategory: products.name.toString().toLowerCase()}})),
-        fallback: 'blocking' // so it can work after deployment
-    };
-}
+// export async function getStaticPaths(props) {
+//     const res = await fetch(`http://localhost/api/products/`, {
+//         headers: new Headers({
+//             'Content-Type': 'application/json',
+//             'Authorization': 'Token ca26bcf85be14daedb6a636af5590638e559293c'
+//         })
+//     });
+//     const products = await res.json();
+//     return {
+//         paths: products.map(products => ({params: {productCategory: products.name.toString().toLowerCase()}})),
+//         fallback: 'blocking' // so it can work after deployment
+//     };
+// }
 
-export async function getStaticProps({params}) {
-    const resProducts = await fetch('http://localhost:8000/api/products/', {
+export async function getServerSideProps({params}) {
+    const resProducts = await fetch(process.env.API_URL + 'products/', {
         headers: new Headers({
             'Content-Type': 'application/json',
             'Authorization': 'Token ca26bcf85be14daedb6a636af5590638e559293c'

@@ -136,7 +136,7 @@ const MiCuenta = (props) => {
 
 export default MiCuenta;
 
-export async function getStaticProps({params}) {
+export async function getServerSideProps({params}) {
     let products = [];
     let productList = [];
     let productsInfo = [];

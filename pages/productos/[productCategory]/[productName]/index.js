@@ -15,29 +15,29 @@ const ProductDetailsIndex = (props) => {
 
 export default ProductDetailsIndex;
 
-export async function getStaticPaths(props) {
-    const res = await fetch('http://localhost:8000/api/products/', {
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            'Authorization': 'Token ca26bcf85be14daedb6a636af5590638e559293c'
-        })
-    });
-    const products = await res.json();
-    return {
-        paths: products.map(product => ({
-            params: {
-                productCategory: product.name.toString().toLowerCase(),
-                productName: product.name.toString().toLowerCase().replaceAll(" ", "-")
-            }
-        })), fallback: 'blocking' // so it can work after deployment
-    };
-}
+// export async function getStaticPaths(props) {
+//     const res = await fetch('http://localhost/api/products/', {
+//         headers: new Headers({
+//             'Content-Type': 'application/json',
+//             'Authorization': 'Token ca26bcf85be14daedb6a636af5590638e559293c'
+//         })
+//     });
+//     const products = await res.json();
+//     return {
+//         paths: products.map(product => ({
+//             params: {
+//                 productCategory: product.name.toString().toLowerCase(),
+//                 productName: product.name.toString().toLowerCase().replaceAll(" ", "-")
+//             }
+//         })), fallback: 'blocking' // so it can work after deployment
+//     };
+// }
 
-export async function getStaticProps({params}) {
-    const res = await fetch('http://localhost:8000/api/products/', {
+export async function getServerSideProps({params}) {
+    const res = await fetch(process.env.API_URL + 'products/', {
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': 'Token ca26bcf85be14daedb6a636af5590638e559293c'
+            'Authorization': process.env.TOKEN
         })
     });
     let products = await res.json();

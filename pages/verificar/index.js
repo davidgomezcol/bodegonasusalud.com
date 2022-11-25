@@ -29,7 +29,7 @@ const Verificar = (props) => {
     }
 
     async function createOrder() {
-        const response = await fetch('http://localhost:8000/api/orders/', {
+        const response = await fetch('http://localhost/api/orders/', {
             method: 'POST',
             body: JSON.stringify({
                 payment_mode: paymentSelected,

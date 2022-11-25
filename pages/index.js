@@ -17,7 +17,7 @@ const Home = (props) => {
 
 export default Home;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const res = await fetch(process.env.API_URL + 'products/', {
         headers: new Headers({
             'Content-Type': 'application/json',

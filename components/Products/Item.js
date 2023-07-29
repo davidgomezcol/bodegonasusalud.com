@@ -10,12 +10,27 @@ const Item = (props) => {
     const dispatch = useDispatch();
     const router = useRouter();
 
-    const {id, name, price, category, weight, units, image} = props;
+    const {id, name, price, discount, category, weight, units, image} = props;
+    //console.log("discount...", discount)
 
     const addToCartHandler = () => {
         dispatch(cartActions.addItemToCart({
-            id, name, price, image
+            id, name, price, image, discount
         }));
+    };
+
+    const renderPrice = () => {
+        if (discount) {
+            const discountedPrice = price - (price * discount) / 100;
+            return (
+                <div>
+                    <p className="text-decoration-line-through">Precio: $ {price}</p>
+                    <p className={classes["price"]}>Oferta: $ {discountedPrice}</p>
+                </div>
+            );
+        } else {
+            return <p className={classes["price"]}>Precio: $ {price}</p>;
+        }
     };
 
     const showDetailsHandler = () => {
@@ -33,7 +48,7 @@ const Item = (props) => {
             <h5 className={classes["product-name"]}>{name}</h5>
             <div className={classes["description-wrapper"]}>
                 <p>{weight}{units}</p>
-                <p>Precio: $ {price}</p>
+                {renderPrice()}
             </div>
             <button className='btn btn-dark'
                     onClick={addToCartHandler}>Añadir al Carrito <FontAwesomeIcon

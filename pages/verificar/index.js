@@ -4,6 +4,7 @@ import Link from "next/link";
 import {cartActions} from "../../store/cart-slice";
 import {Form} from "react-bootstrap"
 import {useRouter} from "next/router";
+import {parseCookies} from "nookies";
 
 const Verificar = (props) => {
     const router = useRouter();
@@ -16,10 +17,10 @@ const Verificar = (props) => {
         dispatch(cartActions.removeItemFromCart(id));
     }
 
-    const addItemHandler = (id, price) => {
+    const addItemHandler = (id, price, discount) => {
         return dispatch(
             cartActions.addItemToCart({
-                id, price
+                id, price, discount
             })
         );
     };
@@ -29,6 +30,8 @@ const Verificar = (props) => {
     }
 
     async function createOrder() {
+        let token = parseCookies()
+        let userToken = token.token
         const response = await fetch('http://localhost/api/orders/', {
             method: 'POST',
             body: JSON.stringify({
@@ -42,7 +45,7 @@ const Verificar = (props) => {
             }),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Token ' + localStorage.getItem('token')
+                'Authorization': 'Token ' + userToken
             }
         });
 
@@ -101,14 +104,17 @@ const Verificar = (props) => {
                                         {item.quantity}<br/>
                                     </td>
                                     <td style={{verticalAlign: "middle", textAlign: "center"}}>
-                                        ${item.price.toFixed(2)}<br/>
+                                        ${item.discount ? (item.price - (item.price * item.discount / 100))
+                                        .toFixed(2) : item.price.toFixed(2)}<br/>
                                     </td>
                                     <td style={{verticalAlign: "middle", textAlign: "center"}}>
                                         ${item.totalPrice.toFixed(2)}<br/>
                                     </td>
                                     <td style={{verticalAlign: "middle", textAlign: "center"}}>
                                         <button onClick={removeItemHandler.bind(this, item.id)}>-</button>
-                                        <button onClick={addItemHandler.bind(this, item.id, item.price)}>+</button>
+                                        <button onClick={
+                                            addItemHandler.bind(this, item.id, item.price, item.discount)
+                                        }>+</button>
                                     </td>
                                 </tr>
                                 </tbody>

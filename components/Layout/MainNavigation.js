@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {clearState, fetchUserBytoken, userSelector} from "../../store/users-slice";
 import {Navbar, Nav, Dropdown, Container, Offcanvas} from 'react-bootstrap'
 import {uiActions} from "../../store/ui-slice";
+import {parseCookies, destroyCookie} from "nookies";
 
 import classes from './MainNavigation.module.css';
 
@@ -17,10 +18,11 @@ function MainNavigation(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        if (localStorage.getItem('token')) {
+        let userToken = parseCookies().token;
+        if (userToken) {
             dispatch(fetchUserBytoken(
                 {
-                    token: localStorage.getItem('token')
+                    token: userToken
                 }));
         }
         if (isSuccess) {
@@ -32,7 +34,7 @@ function MainNavigation(props) {
 
 
     const onLogOut = () => {
-        localStorage.removeItem('token');
+        destroyCookie(null, 'token', { path: '/' });
         clearState();
         setIsLoggedIn(false);
         closeDropdown();

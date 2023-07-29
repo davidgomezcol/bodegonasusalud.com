@@ -8,6 +8,7 @@ const ProductDetailsIndex = (props) => {
             description={props.products.description}
             category={props.products.category}
             price={props.products.price}
+            discount={props.products.discount}
             weight={props.products.weight}
             units={props.products.units}
         />)

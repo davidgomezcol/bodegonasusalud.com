@@ -19,7 +19,7 @@ export async function getServerSideProps({params}) {
     const resProducts = await fetch(process.env.API_URL + 'products/', {
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': 'Token ca26bcf85be14daedb6a636af5590638e559293c'
+            'Authorization': process.env.TOKEN
         })
     });
     const products = await resProducts.json();

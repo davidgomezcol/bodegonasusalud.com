@@ -1,4 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {setCookie} from 'nookies';
 
 export const signupUser = createAsyncThunk(
     'users/create',
@@ -23,7 +24,7 @@ export const signupUser = createAsyncThunk(
             let data = await response.json();
             console.log('data', data);
             if (response.status === 201) {
-                localStorage.setItem('token', data.token);
+                setCookie(null, 'token', data.token, {path: '/', maxAge: 3600})
                 return data;
             } else {
                 return thunkAPI.rejectWithValue(data);
@@ -56,7 +57,7 @@ export const loginUser = createAsyncThunk(
             let data = await response.json();
             console.log('response', data);
             if (response.status === 200) {
-                localStorage.setItem('token', data.token);
+                setCookie(null, 'token', data.token, {path: '/', maxAge: 3600})
                 return data;
             } else {
                 return thunkAPI.rejectWithValue(data);

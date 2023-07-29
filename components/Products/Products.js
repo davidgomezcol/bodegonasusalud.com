@@ -18,6 +18,7 @@ const Products = (props) => {
                     weight={item.weight}
                     units={item.units}
                     price={item.price}
+                    discount={item.discount}
                 />))}
         </div>
 

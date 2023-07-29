@@ -5,6 +5,7 @@ import {Fragment, useEffect, useState} from "react";
 import Spinner from "../../components/UI/Spinner";
 import classes from '../../components/UI/Spinner.module.css'
 import Link from "next/link";
+import {parseCookies} from "nookies";
 
 const MiCuenta = (props) => {
     const router = useRouter();
@@ -16,9 +17,10 @@ const MiCuenta = (props) => {
     // console.log(props.productsInfo);
 
     useEffect(() => {
-        if (localStorage.getItem('token')) {
+        let userToken = parseCookies().token;
+        if (userToken) {
             dispatch(fetchUserBytoken(
-                {token: localStorage.getItem('token')}
+                {token: userToken}
             ));
         } else {
             router.push('/login')
@@ -96,7 +98,7 @@ const MiCuenta = (props) => {
                                                 return props.productsInfo.map(item => {
                                                     if (orderItem.product === item.id) {
                                                         return (
-                                                            <tr>
+                                                            <tr key={item.id}>
                                                                 <th><img
                                                                     alt={item.name} width="100px"
                                                                     src={item.image}/></th>
@@ -111,7 +113,7 @@ const MiCuenta = (props) => {
                                                                     {orderItem.quantity}<br/>
                                                                 </td>
                                                                 <td style={{verticalAlign: "middle", textAlign: "center"}}>
-                                                                    ${item.price.toFixed(2)}<br/>
+                                                                    ${orderItem.discount ? orderItem.item_price - (orderItem.item_price * orderItem.discount / 100).toFixed(2) : orderItem.item_price.toFixed(2)}<br/>
                                                                 </td>
                                                                 <td style={{verticalAlign: "middle", textAlign: "center"}}>
                                                                     ${orderItem.total_price.toFixed(2)}<br/>
@@ -136,15 +138,16 @@ const MiCuenta = (props) => {
 
 export default MiCuenta;
 
-export async function getServerSideProps({params}) {
-    let products = [];
-    let productList = [];
-    let productsInfo = [];
+export async function getServerSideProps({req, params}) {
+    let [products, productList, productsInfo] = [[], [], []];
     const apiUrl = process.env.API_URL;
+    const cookies = parseCookies({ req });
+    const userToken = cookies.token;
+
     const resOrders = await fetch(apiUrl + 'orders/', {
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Authorization': 'Token 86e241fafff7c98c7082b0cb25233b2d61405c50'
+            'Authorization': 'Token ' + userToken
         })
     });
     const orders = await resOrders.json();
